@@ -18,7 +18,7 @@ typedef struct
 
 int qtd = 0;
 
-//--------------------------------------------
+//_________________________________________________________
 
 void salvaArquivo(tgado gd[])
 {
@@ -30,7 +30,7 @@ void salvaArquivo(tgado gd[])
 	fclose(arq);
 
 }
-//--------------------------------------------
+//_________________________________________________________
 
 void carregaArquivo(tgado gd[])
 {
@@ -45,7 +45,7 @@ void carregaArquivo(tgado gd[])
 	printf("Dados carregado com sucesso!\n");
 	fclose(arq);
 }
-//--------------------------------------------
+//_________________________________________________________
 
 void addGado(tgado gd[], int mes, int ano){
 	printf("Codigo da cabeca de gado: ");
@@ -81,7 +81,8 @@ void addGado(tgado gd[], int mes, int ano){
 	qtd++;
 }
 
-//--------------------------------------------
+//_________________________________________________________
+
 void listaGado(tgado gd[])
 {
 	
@@ -96,7 +97,7 @@ void listaGado(tgado gd[])
 	}
 	
 }
-//--------------------------------------------
+//_________________________________________________________
 
 void calculaLeite(tgado gd[])
 {
@@ -110,21 +111,21 @@ void calculaLeite(tgado gd[])
 	printf("Total de leite produzido na semana: %d", totalLeite);
 	
 }
-//--------------------------------------------
+//_________________________________________________________
 
 void calculaAlim(tgado gd[])
 {
-	int totalAlim = 0;
+	int totalAlimento = 0;
 	
 	for(int i = 0; i < qtd; i++)
 	{
-		totalAlim += gd[i].alim;
+		totalAlimento += gd[i].alim;
 	}
 	
-	printf("Total de alimento consumido na semana: %d", totalAlim);
+	printf("Total de alimento consumido na semana: %d", totalAlimento);
 	
 }
-//--------------------------------------------
+//_________________________________________________________
 
 void listaGadoAbate(tgado gd[])
 {
@@ -143,7 +144,7 @@ void listaGadoAbate(tgado gd[])
 	}
 	
 }
-//--------------------------------------------
+//_________________________________________________________
 
 int menu()
 {
@@ -163,7 +164,7 @@ int menu()
 	printf("\n");
 	return opcao;
 }
-//--------------------------------------------
+//_________________________________________________________
 
 int main()
 {

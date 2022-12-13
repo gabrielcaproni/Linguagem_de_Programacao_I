@@ -19,7 +19,7 @@ typedef struct
 
 int qtd = 0;
 
-//--------------------------------------------
+//_________________________________________________________
 
 void addJogo(tjogo jg[]){
 	printf("Titulo do jogo: ");
@@ -42,7 +42,8 @@ void addJogo(tjogo jg[]){
 	
 	qtd++;
 }
-//--------------------------------------------
+//_________________________________________________________
+
 void listaJogos(tjogo jg[])
 {
 	
@@ -58,7 +59,8 @@ void listaJogos(tjogo jg[])
 	}
 	
 }
-//--------------------------------------------
+//_________________________________________________________
+
 void fazEmprestimo(tjogo jg[], int cod)
 {
 	printf("Nome da pessoa: ");
@@ -71,7 +73,7 @@ void fazEmprestimo(tjogo jg[], int cod)
 	
 	jg[cod - 1].emprestimo.emprestado = 'S';	
 }
-//--------------------------------------------
+//_________________________________________________________
 
 int filtraTitulo(tjogo jg[], char titulo[30])
 {
@@ -79,7 +81,7 @@ int filtraTitulo(tjogo jg[], char titulo[30])
 	int res = -1;
 	
 	for(int i = 0; i < qtd; i++){
-		strcpy(tituloAux, jg[i].titulo); // copiando do vetor para aux
+		strcpy(tituloAux, jg[i].titulo);
 		strupr(tituloAux); // uppercase
 		if(strcmp(titulo, tituloAux) == 0)
 		{
@@ -97,14 +99,15 @@ int filtraTitulo(tjogo jg[], char titulo[30])
 	return res;
 	
 }
-//--------------------------------------------
+//_________________________________________________________
+
 int filtraConsole(tjogo jg[], char console[15])
 {
 	char consAux[15];
 	int res = -1;
 	
 	for(int i = 0; i < qtd; i++){
-		strcpy(consAux, jg[i].console); // copiando do vetor para aux
+		strcpy(consAux, jg[i].console);
 		strupr(consAux); // uppercase
 		if(strcmp(console, consAux) == 0)
 		{
@@ -122,7 +125,7 @@ int filtraConsole(tjogo jg[], char console[15])
 	return res;
 	
 }
-//--------------------------------------------
+//_________________________________________________________
 
 int listaEmp(tjogo jg[])
 {
@@ -142,7 +145,7 @@ int listaEmp(tjogo jg[])
 	return res;
 	
 }
-//--------------------------------------------
+//_________________________________________________________
 int menu()
 {
 	int opcao;
@@ -160,7 +163,7 @@ int menu()
 	printf("\n");
 	return opcao;
 }
-//--------------------------------------------
+//_________________________________________________________
 
 void main(){
 	

@@ -78,7 +78,7 @@ int filtraNome(teletros el[], char nomeConsulta[50])
 	
 	for(int i = 0; i < qtd; i++)
 	{
-		strcpy(nomeAux, el[i].nome); // copiando do vetor para aux
+		strcpy(nomeAux, el[i].nome);
 		strupr(nomeAux); // uppercase
 		if(strcmp(nomeConsulta, nomeAux) == 0)
 		{

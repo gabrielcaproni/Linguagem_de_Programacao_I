@@ -91,13 +91,13 @@ int filtraNome(talunos al[], char nomeConsulta[100])
 }
 //--------------------------------------------
 
-int filtraMatricula(talunos al[], int matConsulta)
+int filtraMatricula(talunos al[], int matriculaConsulta)
 {
 	int res = -1;
 	
 	for(int i = 0; i < qtd; i++)
 	{
-		if(matConsulta == al[i].matricula)
+		if(matriculaConsulta == al[i].matricula)
 		{
 			printf("*** %s ***\n", al[i].nome);
 			printf("Matricula: %d\n", al[i].matricula);
