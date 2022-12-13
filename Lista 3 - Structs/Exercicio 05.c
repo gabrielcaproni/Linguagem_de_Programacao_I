@@ -21,58 +21,62 @@ int qtd = 0;
 
 //_________________________________________________________
 
-void addJogo(tjogo jg[]){
+void adicionaJogo(tjogo jogo[]){
+
 	printf("Titulo do jogo: ");
 	fflush(stdin);
-	gets(jg[qtd].titulo);
+	gets(jogo[qtd].titulo);
 	
 	printf("Console: ");
 	fflush(stdin);
-	gets(jg[qtd].console);
+	gets(jogo[qtd].console);
 	
 	printf("Ano de lancamento: ");
 	fflush(stdin);
-	scanf("%d", &jg[qtd].ano);
+	scanf("%d", &jogo[qtd].ano);
 	
 	printf("Ranking: ");
 	fflush(stdin);
-	scanf("%d", &jg[qtd].ranking);
+	scanf("%d", &jogo[qtd].ranking);
 	
-	jg[qtd].emprestimo.emprestado = 'N';
+	jogo[qtd].emprestimo.emprestado = 'N';
 	
 	qtd++;
 }
+
 //_________________________________________________________
 
-void listaJogos(tjogo jg[])
+void listaJogos(tjogo jogo[])
 {
 	
 	for(int i = 0; i < qtd; i++)
 	{
 		printf("*** Jogo %d ***\n", i + 1);
-		printf("Titulo: %s\n", jg[i].titulo);
-		printf("Console: %s\n", jg[i].console);
-		printf("Ano de publicacao: %d\n", jg[i].ano);
-		printf("Ranking: %d\n", jg[i].ranking);
-		printf("Emprestado: %c\n", jg[i].emprestimo.emprestado);
+		printf("Titulo: %s\n", jogo[i].titulo);
+		printf("Console: %s\n", jogo[i].console);
+		printf("Ano de publicacao: %d\n", jogo[i].ano);
+		printf("Ranking: %d\n", jogo[i].ranking);
+		printf("Emprestado: %c\n", jogo[i].emprestimo.emprestado);
 		printf("------------------------\n");
 	}
 	
 }
+
 //_________________________________________________________
 
-void fazEmprestimo(tjogo jg[], int cod)
+void fazEmprestimo(tjogo jogo[], int cod)
 {
 	printf("Nome da pessoa: ");
 	fflush(stdin);
-	gets(jg[cod - 1].emprestimo.nomePessoa);
+	gets(jogo[cod - 1].emprestimo.nomePessoa);
 	
 	printf("Data do emprestimo: ");
 	fflush(stdin);
-	gets(jg[cod - 1].emprestimo.data);
+	gets(jogo[cod - 1].emprestimo.data);
 	
-	jg[cod - 1].emprestimo.emprestado = 'S';	
+	jogo[cod - 1].emprestimo.emprestado = 'S';	
 }
+
 //_________________________________________________________
 
 int filtraTitulo(tjogo jg[], char titulo[30])
@@ -99,6 +103,7 @@ int filtraTitulo(tjogo jg[], char titulo[30])
 	return res;
 	
 }
+
 //_________________________________________________________
 
 int filtraConsole(tjogo jg[], char console[15])
@@ -125,6 +130,7 @@ int filtraConsole(tjogo jg[], char console[15])
 	return res;
 	
 }
+
 //_________________________________________________________
 
 int listaEmp(tjogo jg[])
@@ -145,7 +151,9 @@ int listaEmp(tjogo jg[])
 	return res;
 	
 }
+
 //_________________________________________________________
+
 int menu()
 {
 	int opcao;
@@ -163,6 +171,7 @@ int menu()
 	printf("\n");
 	return opcao;
 }
+
 //_________________________________________________________
 
 void main(){
@@ -174,12 +183,15 @@ void main(){
 	do{
 		op = menu();
 		switch(op){
+			
 			case 1:
-				addJogo(jogos);
+				adicionaJogo(jogos);
 				break;
+				
 			case 2:
 				listaJogos(jogos);
 				break;
+				
 			case 3:
 				printf("Insira o titulo do jogo: ");
 				fflush(stdin);
@@ -191,6 +203,7 @@ void main(){
 					printf("Jogo nao encontrado!");
 				}
 				break;
+				
 			case 4:
 				printf("Insira o nome do console: ");
 				fflush(stdin);
@@ -202,12 +215,14 @@ void main(){
 					printf("Console nao encontrado!");
 				}
 				break;
+				
 			case 5:
 				listaJogos(jogos);
 				printf("Insira o codigo do jogo: ");
 				scanf("%d", &emp);
 				fazEmprestimo(jogos, emp);
 				break;
+				
 			case 6:
 				res = listaEmp(jogos);
 				if(res == -1)
@@ -215,15 +230,19 @@ void main(){
 					printf("Nao ha jogos emprestados!");
 				}
 				break;
+				
 			case 0:
 				printf("Saindo...\n");
 				break;
+				
 			default:
 				printf("Opcao invalida!!!\n");
 				break;
+				
 		}
 		getch();
 		system("cls");
+		
 	}while(op != 0);
 	
 }

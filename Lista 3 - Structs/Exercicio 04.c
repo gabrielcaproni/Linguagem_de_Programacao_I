@@ -9,11 +9,12 @@ typedef struct
 }teletros;
 
 int qtd = 0;
-//--------------------------------------------
+
+//______________________________________
 
 void salvaArquivo(teletros el[])
 {
-	FILE *arq;
+	FILE * arq;
 	int i = 0;
 	arq = fopen("dadosEletro.txt", "wb");
 	fwrite(&el[i], sizeof(teletros), qtd, arq);
@@ -21,9 +22,10 @@ void salvaArquivo(teletros el[])
 	fclose(arq);
 
 }
-//--------------------------------------------
 
-void carregaArquivo(teletros el[])
+//______________________________________
+
+void carregaArquivo(teletros eletro[])
 {
 	FILE *arq;
 	arq = fopen("dadosEletro.txt", "rb");
@@ -31,61 +33,64 @@ void carregaArquivo(teletros el[])
 		printf("Arquivo de alunos nao encontrado!\n");
 		return;
 	}
-	while(fread(&el[qtd], sizeof(teletros), 1, arq) > 0)
+	while(fread(&eletro[qtd], sizeof(teletros), 1, arq) > 0)
 		qtd++;
 	printf("Dados carregado com sucesso!\n");
 	fclose(arq);
 }
-//--------------------------------------------
+//______________________________________
 
-void addEletro(teletros el[])
+void addEletro(teletros eletros[])
 {
 	printf("Nome do eletrodomestico: ");
 	fflush(stdin);
-	gets(el[qtd].nome);
+	gets(eletros[qtd].nome);
 	
 	printf("Potencia do eletro(em kW): ");
 	fflush(stdin);
-	scanf("%f", &el[qtd].potencia);
+	scanf("%f", &eletros[qtd].potencia);
 
 	printf("Tempo de uso diario(em horas): ");
 	fflush(stdin);
-	scanf("%f", &el[qtd].tempo);
+	scanf("%f", &eletros[qtd].tempo);
 	
 	qtd++;
 }
-//--------------------------------------------
 
-void listaEletros(teletros el[])
+//______________________________________
+
+void listaEletros(teletros eletros[])
 {
 	
 	for(int i = 0; i < qtd; i++)
 	{
 		printf("*** Eletro %d ***\n", i + 1);
-		printf("Nome: %s\n", el[i].nome);
-		printf("Potencia(kW): %.2f\n", el[i].potencia);
-		printf("Uso diario(horas): %.2f\n", el[i].tempo);
+		printf("Nome: %s\n", eletros[i].nome);
+		printf("Potencia(kW): %.2f\n", eletros[i].potencia);
+		printf("Uso diario(horas): %.2f\n", eletros[i].tempo);
 		printf("------------------------\n");
 	}
 	
 }
-//--------------------------------------------
 
-int filtraNome(teletros el[], char nomeConsulta[50])
+//______________________________________
+
+int filtraNome(teletros eletros[], char nomeConsulta[50])
 {
-	char nomeAux[50];
+	char nomeAuxiliar[50];
 	int res = -1;
 	
 	for(int i = 0; i < qtd; i++)
 	{
-		strcpy(nomeAux, el[i].nome);
-		strupr(nomeAux); // uppercase
-		if(strcmp(nomeConsulta, nomeAux) == 0)
+		strcpy(nomeAuxiliar, eletros[i].nome);
+		strupr(nomeAuxiliar); 
+		
+		if(strcmp(nomeConsulta, nomeAuxiliar) == 0)
 		{
 			printf("*** Eletro %d ***\n", i + 1);
-			printf("Nome: %s\n", el[i].nome);
-			printf("Potencia(kW): %.2f\n", el[i].potencia);
-			printf("Uso diario(horas): %.2f\n", el[i].tempo);
+			printf("Nome: %s\n", eletros[i].nome);
+			printf("Potencia(kW): %.2f\n", eletros[i].potencia);
+			printf("Uso diario(horas): %.2f\n", eletros[i].tempo);
 			printf("------------------------\n");
 			res = 0;
 		}
@@ -93,22 +98,23 @@ int filtraNome(teletros el[], char nomeConsulta[50])
 	
 	return res;	
 }
-//--------------------------------------------
 
-int filtraCons(teletros el[], float gasto)
+//______________________________________
+
+int filtraCons(teletros eletros[], float gasto)
 {
 	int res = 1;
 	float custo;
 	
 	for(int i = 0; i < qtd; i++)
 	{
-		custo = el[i].potencia * el[i].tempo;
+		custo = eletros[i].potencia * eletros[i].tempo;
 		if(gasto <= custo)
 		{
 			printf("*** Eletro %d ***\n", i + 1);
-			printf("Nome: %s\n", el[i].nome);
-			printf("Potencia(kW): %.2f\n", el[i].potencia);
-			printf("Uso diario(horas): %.2f\n", el[i].tempo);
+			printf("Nome: %s\n", eletros[i].nome);
+			printf("Potencia(kW): %.2f\n", eletros[i].potencia);
+			printf("Uso diario(horas): %.2f\n", eletros[i].tempo);
 			printf("------------------------\n");
 			res = 0;
 		}
@@ -116,17 +122,18 @@ int filtraCons(teletros el[], float gasto)
 	
 	return res;
 }
-//--------------------------------------------
 
-void consumoTotal(teletros el[])
+//______________________________________
+
+void consumoTotal(teletros eletros[])
 {
 	float preco = 0.0;
 	float consumo = 0.0;
 	
 	for(int i = 0; i < qtd; i++)
 	{
-		preco += el[i].potencia * el[i].tempo;
-		consumo += el[i].potencia;
+		preco += eletros[i].potencia * eletros[i].tempo;
+		consumo += eletros[i].potencia;
 	}
 	
 	printf("Consumo diario: %.2fkW\n", consumo);
@@ -136,7 +143,8 @@ void consumoTotal(teletros el[])
 	printf("Custo mensal: R$%.2f\n", preco * 30.0);
 	
 }
-//--------------------------------------------
+
+//______________________________________
 
 int menu()
 {
@@ -156,7 +164,8 @@ int menu()
 	printf("\n");
 	return opcao;
 }
-//--------------------------------------------
+
+//______________________________________
 
 int main()
 {
@@ -170,12 +179,15 @@ int main()
 		op = menu();
 		switch(op)
 		{
+			
 			case 1:
 				addEletro(eletros);
 				break;
+				
 			case 2:
 				listaEletros(eletros);
 				break;
+				
 			case 3:
 				printf("Insira o nome do eletro: ");
 				fflush(stdin);
@@ -187,29 +199,37 @@ int main()
 					printf("\nEletro nao encontrado!");
 				}
 				break;
+				
 			case 4:
 				printf("Insira o gasto(em R$): ");
 				scanf("%f", &custo);
 				filtraCons(eletros, custo);
 				break;
+				
 			case 5:
 				consumoTotal(eletros);
 				break;
+				
 			case 6:
 				salvaArquivo(eletros);
 				break;
+				
 			case 7:
 				carregaArquivo(eletros);
 				break;
+				
 			case 0:
 				printf("Saindo...\n");
 				break;
+				
 			default:
 				printf("Opcao invalida!!!\n");
 				break;
+				
 		}
 		getch();
 		system("cls");
+		
 	}while(op != 0);
 	
 }

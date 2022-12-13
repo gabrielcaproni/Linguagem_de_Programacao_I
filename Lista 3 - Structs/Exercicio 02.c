@@ -3,27 +3,29 @@
 
 typedef struct{
 	char titulo[30];
-	char autor[15];
+	char autor[30];
 	int ano;
 	int prateleira;
 }tlivro;
 
 int qtd = 0;
-//--------------------------------------------
+
+//______________________________________
 
 void salvaArquivo(tlivro liv[])
 {
-	FILE *arq;
+	FILE * arq;
 	int i = 0;
 	arq = fopen("dadosLivros.txt", "wb");
 	fwrite(&liv[i], sizeof(tlivro), qtd, arq);
 	printf("Dados salvos com sucesso.\n");
 	fclose(arq);
 }
-//--------------------------------------------
+
+//______________________________________
 
 void carregaArquivo(tlivro liv[]){
-	FILE *arq;
+	FILE * arq;
 	arq = fopen("dadosLivros.txt", "rb");
 	if(arq == NULL){
 		printf("Arquivo de livros nao encontrado!\n");
@@ -34,61 +36,65 @@ void carregaArquivo(tlivro liv[]){
 	printf("Dados carregados com sucesso!\n");
 	fclose(arq);
 }
-//--------------------------------------------
-void addLivro(tlivro liv[])
+
+//______________________________________
+
+void adicionaLivro(tlivro livro[])
 {
 	printf("Titulo do livro: ");
 	fflush(stdin);
-	gets(liv[qtd].titulo);
+	gets(livro[qtd].titulo);
 	
 	printf("Nome do autor: ");
 	fflush(stdin);
-	gets(liv[qtd].autor);
+	gets(livro[qtd].autor);
 	
 	printf("Ano de publicacao:");
 	fflush(stdin);
-	scanf("%d", &liv[qtd].ano);
+	scanf("%d", &livro[qtd].ano);
 	
 	printf("Prateleira:");
 	fflush(stdin);
-	scanf("%d", &liv[qtd].prateleira);
+	scanf("%d", &livro[qtd].prateleira);
 	
 	qtd++;
 }
-//--------------------------------------------
 
-void listaLivros(tlivro liv[])
+//______________________________________
+
+void listaLivros(tlivro livro[])
 {
 	
 	for(int i = 0; i < qtd; i++)
 	{
 		printf("*** Livro %d ***\n", i + 1);
-		printf("Titulo: %s\n", liv[i].titulo);
-		printf("Nome do autor: %s\n", liv[i].autor);
-		printf("Ano de publicacao: %d\n", liv[i].ano);
-		printf("Prateleira: %d\n", liv[i].prateleira);
+		printf("Titulo: %s\n", livro[i].titulo);
+		printf("Nome do autor: %s\n", livro[i].autor);
+		printf("Ano de publicacao: %d\n", livro[i].ano);
+		printf("Prateleira: %d\n", livro[i].prateleira);
 		printf("------------------------\n");
 	}
 	
 }
-//--------------------------------------------
 
-int filtraTitulo(tlivro liv[], char tituloConsulta[30])
+//______________________________________
+
+int filtraTitulo(tlivro livro[], char tituloConsulta[30])
 {
-	char tituloAux[40];
+	char tituloAuxiliar[40];
 	int res = -1;
 	
 	for(int i = 0; i < qtd; i++)
 	{
-		strcpy(tituloAux, liv[i].titulo); // copiando do vetor para aux
-		strupr(tituloAux); // uppercase
-		if(strcmp(tituloConsulta, tituloAux) == 0)
+		strcpy(tituloAuxiliar, livro[i].titulo);
+		strupr(tituloAuxiliar);
+		if(strcmp(tituloConsulta, tituloAuxiliar) == 0)
 		{
 			printf("*** Livro %d ***\n", i + 1);
-			printf("Titulo: %s\n", liv[i].titulo);
-			printf("Nome do autor: %s\n", liv[i].autor);
-			printf("Ano de publicacao: %d\n", liv[i].ano);
-			printf("Prateleira: %d\n", liv[i].prateleira);
+			printf("Titulo: %s\n", livro[i].titulo);
+			printf("Nome do autor: %s\n", livro[i].autor);
+			printf("Ano de publicacao: %d\n", livro[i].ano);
+			printf("Prateleira: %d\n", livro[i].prateleira);
 			printf("------------------------\n");
 			res = 0;
 		}
@@ -97,20 +103,22 @@ int filtraTitulo(tlivro liv[], char tituloConsulta[30])
 	return res;
 	
 }
-//--------------------------------------------
-int filtraAno(tlivro liv[], int anoCons)
+
+//______________________________________
+
+int filtraAno(tlivro livro[], int anoCons)
 {
 	int res = -1;
 	
 	for(int i = 0; i < qtd; i++)
 	{
-		if(liv[i].ano >= anoCons)
+		if(livro[i].ano >= anoCons)
 		{
 			printf("*** Livro %d ***\n", i + 1);
-			printf("Titulo: %s\n", liv[i].titulo);
-			printf("Nome do autor: %s\n", liv[i].autor);
-			printf("Ano de publicacao: %d\n", liv[i].ano);
-			printf("Prateleira: %d\n", liv[i].prateleira);
+			printf("Titulo: %s\n", livro[i].titulo);
+			printf("Nome do autor: %s\n", livro[i].autor);
+			printf("Ano de publicacao: %d\n", livro[i].ano);
+			printf("Prateleira: %d\n", livro[i].prateleira);
 			printf("------------------------\n");
 			res = 0;
 		}
@@ -118,7 +126,9 @@ int filtraAno(tlivro liv[], int anoCons)
 	
 	return res;
 }
-//--------------------------------------------
+
+//______________________________________
+
 int menu()
 {
 	int opcao;
@@ -134,7 +144,9 @@ int menu()
 	printf("\n");
 	return opcao;
 }
-//--------------------------------------------
+
+//______________________________________
+
 int main()
 {
 	tlivro livros[100];
@@ -148,12 +160,15 @@ int main()
 		op = menu();
 		switch(op)
 		{
+			
 			case 1:
-				addLivro(livros);
+				adicionaLivro(livros);
 				break;
+				
 			case 2:
 				listaLivros(livros);
 				break;
+				
 			case 3:
 				printf("Titulo para pesquisa: ");
 				fflush(stdin);
@@ -165,6 +180,7 @@ int main()
 					printf("Livro nao encontrado!");
 				}
 				break;
+				
 			case 4:
 				printf("Insira o ano minimo para publicacao: ");
 				scanf("%d", &busca);
@@ -174,15 +190,19 @@ int main()
 					printf("Nao ha livros publicados a partior desse ano!");
 				}
 				break;
+				
 			case 0:
 				printf("Saindo...\n");
 				salvaArquivo(livros);
 				break;
+				
 			default:
 				printf("Opcao invalida!!!\n");
 				break;
+				
 		}
 		getch();
 		system("cls");
+		
 	}while(op != 0);
 }

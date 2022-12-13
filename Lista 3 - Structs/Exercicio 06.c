@@ -3,212 +3,245 @@
 
 typedef struct
 {
-	int mes;
-	int ano;
-}tnasc;
+	char nomePessoa[30];
+	char data[20];
+	char emprestado;
+}tdata;
 
 typedef struct
 {
-	int cod;
-	int leite;
-	int alim;
-	tnasc nasc;
-	char abate;
-}tgado;
+	char titulo[30];
+	char console[15];
+	int ano;
+	int ranking;
+	tdata emprestimo;
+}tjogo;
 
 int qtd = 0;
 
 //_________________________________________________________
 
-void salvaArquivo(tgado gd[])
-{
-	FILE *arq;
-	int i = 0;
-	arq = fopen("dadosGado.txt", "wb");
-	fwrite(&gd[i], sizeof(tgado), qtd, arq);
-	printf("Dados salvos com sucesso.\n");
-	fclose(arq);
-
-}
-//_________________________________________________________
-
-void carregaArquivo(tgado gd[])
-{
-	FILE *arq;
-	arq = fopen("dadosGado.txt", "rb");
-	if(arq == NULL){
-		printf("Arquivo de alunos nao encontrado!\n");
-		return;
-	}
-	while(fread(&gd[qtd], sizeof(tgado), 1, arq) > 0)
-		qtd++;
-	printf("Dados carregado com sucesso!\n");
-	fclose(arq);
-}
-//_________________________________________________________
-
-void addGado(tgado gd[], int mes, int ano){
-	printf("Codigo da cabeca de gado: ");
+void adicionaJogo(tjogo jogo[]){
+	printf("Titulo do jogo: ");
 	fflush(stdin);
-	scanf("%d", &gd[qtd].cod);
+	gets(jogo[qtd].titulo);
 	
-	printf("Litros de leite p/ semana(em litros): ");
+	printf("Console: ");
 	fflush(stdin);
-	scanf("%d", &gd[qtd].leite);
+	gets(jogo[qtd].console);
 	
-	printf("Alimentos ingeridos p/ semana(em quilos): ");
+	printf("Ano de lancamento: ");
 	fflush(stdin);
-	scanf("%d", &gd[qtd].alim);
+	scanf("%d", &jogo[qtd].ano);
 	
-	printf("Mes de Nascimento: ");
+	printf("Ranking: ");
 	fflush(stdin);
-	scanf("%d", &gd[qtd].nasc.mes);
+	scanf("%d", &jogo[qtd].ranking);
 	
-	printf("Ano de Nascimento: ");
-	fflush(stdin);
-	scanf("%d", &gd[qtd].nasc.ano);
-	
-	if(gd[qtd].nasc.mes >= mes && gd[qtd].nasc.ano <= ano - 5)
-	{
-		gd[qtd].abate = 'S';
-		
-	}else if(gd[qtd].leite < 40){
-		gd[qtd].abate = 'S';
-	}else{
-		gd[qtd].abate = 'N';
-	}
+	jogo[qtd].emprestimo.emprestado = 'N';
 	
 	qtd++;
 }
 
 //_________________________________________________________
 
-void listaGado(tgado gd[])
+void listaJogos(tjogo jogo[])
 {
 	
 	for(int i = 0; i < qtd; i++)
 	{
-		printf("Codigo: %d\n", gd[i].cod);
-		printf("Leite p/ semana: %d\n", gd[i].leite);
-		printf("Alim. cons. p/ semana: %d\n", gd[i].alim);
-		printf("Mes de nasc.: %d\n", gd[i].nasc.mes);
-		printf("Ano de nasc.: %d\n", gd[i].nasc.ano);
+		printf("*** Jogo %d ***\n", i + 1);
+		printf("Titulo: %s\n", jogo[i].titulo);
+		printf("Console: %s\n", jogo[i].console);
+		printf("Ano de publicacao: %d\n", jogo[i].ano);
+		printf("Ranking: %d\n", jogo[i].ranking);
+		printf("Emprestado: %c\n", jogo[i].emprestimo.emprestado);
 		printf("------------------------\n");
 	}
 	
 }
+
 //_________________________________________________________
 
-void calculaLeite(tgado gd[])
+void fazEmprestimo(tjogo jogo[], int cod)
 {
-	int totalLeite = 0;
+	printf("Nome da pessoa: ");
+	fflush(stdin);
+	gets(jogo[cod - 1].emprestimo.nomePessoa);
 	
-	for(int i = 0; i < qtd; i++)
-	{
-		totalLeite += gd[i].leite;
-	}
+	printf("Data do emprestimo: ");
+	fflush(stdin);
+	gets(jogo[cod - 1].emprestimo.data);
 	
-	printf("Total de leite produzido na semana: %d", totalLeite);
-	
+	jogo[cod - 1].emprestimo.emprestado = 'S';	
 }
+
 //_________________________________________________________
 
-void calculaAlim(tgado gd[])
+int filtraTitulo(tjogo jogo[], char titulo[30])
 {
-	int totalAlimento = 0;
+	char tituloAuxiliar[30];
+	int res = -1;
 	
-	for(int i = 0; i < qtd; i++)
-	{
-		totalAlimento += gd[i].alim;
-	}
-	
-	printf("Total de alimento consumido na semana: %d", totalAlimento);
-	
-}
-//_________________________________________________________
-
-void listaGadoAbate(tgado gd[])
-{
-	
-	for(int i = 0; i < qtd; i++)
-	{
-		if(gd[i].abate == 'S')
-		{	
-		printf("Codigo: %d\n", gd[i].cod);
-		printf("Leite p/ semana: %d\n", gd[i].leite);
-		printf("Alim. cons. p/ semana: %d\n", gd[i].alim);
-		printf("Mes de nasc.: %d\n", gd[i].nasc.mes);
-		printf("Ano de nasc.: %d\n", gd[i].nasc.ano);
-		printf("------------------------\n");
+	for(int i = 0; i < qtd; i++){
+		strcpy(tituloAuxiliar, jogo[i].titulo);
+		strupr(tituloAuxiliar);
+		if(strcmp(titulo, tituloAuxiliar) == 0)
+		{
+			printf("*** Jogo %d ***\n", i + 1);
+			printf("Titulo: %s\n", jogo[i].titulo);
+			printf("Console: %s\n", jogo[i].console);
+			printf("Ano de publicacao: %d\n", jogo[i].ano);
+			printf("Ranking: %d\n", jogo[i].ranking);
+			printf("Emprestado: %c\n", jogo[i].emprestimo.emprestado);
+			printf("------------------------\n");
+			res = 0;
 		}
 	}
 	
+	return res;
+	
 }
+
+//_________________________________________________________
+
+int filtraConsole(tjogo jogo[], char console[15])
+{
+	char consAuxiliar[15];
+	int res = -1;
+	
+	for(int i = 0; i < qtd; i++){
+		strcpy(consAuxiliar, jogo[i].console);
+		strupr(consAuxiliar); 
+		if(strcmp(console, consAuxiliar) == 0)
+		{
+			printf("*** Jogo %d ***\n", i + 1);
+			printf("Titulo: %s\n", jogo[i].titulo);
+			printf("Console: %s\n", jogo[i].console);
+			printf("Ano de publicacao: %d\n", jogo[i].ano);
+			printf("Ranking: %.2f\n", jogo[i].ranking);
+			printf("Emprestado: %c\n", jogo[i].emprestimo.emprestado);
+			printf("------------------------\n");
+			res = 0;
+		}
+	}
+	
+	return res;
+	
+}
+
+//_________________________________________________________
+
+int listaEmp(tjogo jogo[])
+{
+	int res = -1;
+	
+	for(int i = 0; i < qtd; i++){
+		if(jogo[i].emprestimo.emprestado == 'S')
+		{
+			printf("Jogo: %s\n", jogo[i].titulo);
+			printf("Emprestado para: %s\n", jogo[i].emprestimo.nomePessoa);
+			printf("Data do emprestimo: %s\n", jogo[i].emprestimo.data);
+			printf("------------------------\n");
+			res = 0;
+		}
+	}
+	
+	return res;
+	
+}
+
 //_________________________________________________________
 
 int menu()
 {
 	int opcao;
 	
-	printf("*** Controle de gado ***\n");
-	printf("1 - Cadastrar cabeca de gado\n");
-	printf("2 - Listar cabeca de gado\n");
-	printf("3 - Calcular leite produzido\n");
-	printf("4 - Calcular alimento consumido\n");
-	printf("5 - Listar animais aptos para o abate\n");
-	printf("6 - Salvar dados\n");
-	printf("7 - Carregar dados\n");
+	printf("*** Biblioteca de Jogos ***\n");
+	printf("1 - Cadastrar jogo\n");
+	printf("2 - Listar jogos\n");
+	printf("3 - Procurar por titulo\n");
+	printf("4 - Filtrar por console\n");
+	printf("5 - Fazer um emprestimo\n");
+	printf("6 - Listar emprestimos\n");
 	printf("0 - Sair\n");
 	printf("Opcao: ");
 	scanf("%d", &opcao);
 	printf("\n");
 	return opcao;
 }
+
 //_________________________________________________________
 
-int main()
-{
-	tgado gado[100];
-	int op, mes, ano;
+void main(){
 	
-	do
-	{
+	tjogo jogos[100];
+	char tituloBusca[30], consoleBusca[15];
+	int emp, op, res;
+	
+	do{
 		op = menu();
-		switch(op)
-		{
+		
+		switch(op){
 			case 1:
-				printf("Por favor, insira mes e ano de compra do gado: ");
-				scanf("%d%d", &mes, &ano);
-				printf("\n");
-				addGado(gado, mes, ano);
+				adicionaJogo(jogos);
 				break;
+				
 			case 2:
-				listaGado(gado);
+				listaJogos(jogos);
 				break;
+				
 			case 3:
-				calculaLeite(gado);
+				printf("Insira o titulo do jogo: ");
+				fflush(stdin);
+				gets(tituloBusca);
+				strupr(tituloBusca);
+				res = filtraTitulo(jogos, tituloBusca);
+				if(res == -1)
+				{
+					printf("Jogo nao encontrado!");
+				}
 				break;
+				
 			case 4:
-				calculaAlim(gado);
+				printf("Insira o nome do console: ");
+				fflush(stdin);
+				gets(consoleBusca);
+				strupr(consoleBusca);
+				res = filtraConsole(jogos, consoleBusca);
+				if(res == -1)
+				{
+					printf("Console nao encontrado!");
+				}
 				break;
+				
 			case 5:
-				listaGadoAbate(gado);
+				listaJogos(jogos);
+				printf("Insira o codigo do jogo: ");
+				scanf("%d", &emp);
+				fazEmprestimo(jogos, emp);
 				break;
+				
 			case 6:
-				salvaArquivo(gado);
+				res = listaEmp(jogos);
+				if(res == -1)
+				{
+					printf("Nao ha jogos emprestados!");
+				}
 				break;
-			case 7:
-				carregaArquivo(gado);
-				break;
+				
 			case 0:
 				printf("Saindo...\n");
 				break;
+				
 			default:
 				printf("Opcao invalida!!!\n");
 				break;
+				
 		}
 		getch();
 		system("cls");
+		
 	}while(op != 0);
 	
 }

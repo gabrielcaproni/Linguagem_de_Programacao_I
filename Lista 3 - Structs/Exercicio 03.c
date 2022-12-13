@@ -8,28 +8,31 @@ typedef struct
 }talunos;
 
 int qtd = 0;
-//--------------------------------------------
 
-void salvaArquivo(talunos al[])
+//______________________________________
+
+void salvaArquivo(talunos aluno[])
 {
-	FILE *arq;
+	FILE * arq;
 	int i = 0;
 	arq = fopen("dadosAlunos.txt", "wb");
-	fwrite(&al[i], sizeof(talunos), qtd, arq);
+	fwrite(&aluno[i], sizeof(talunos), qtd, arq);
 	printf("Dados salvos com sucesso.\n");
 	fclose(arq);
 }
-//--------------------------------------------
 
-void carregaArquivo(talunos al[])
+//______________________________________
+
+void carregaArquivo(talunos aluno[])
 {
-	FILE *arq;
+	FILE * arq;
 	arq = fopen("dadosAlunos.txt", "rb");
 	if(arq == NULL){
 		printf("Arquivo de alunos nao encontrado!\n");
 		return;
 	}
-	while(fread(&al[qtd], sizeof(talunos), 1, arq) > 0)
+	
+	while(fread(&aluno[qtd], sizeof(talunos), 1, arq) > 0)
 		qtd++;
 	printf("Dados carregado com sucesso!\n");
 	fclose(arq);
@@ -37,51 +40,52 @@ void carregaArquivo(talunos al[])
 
 //--------------------------------------------
 
-void addAluno(talunos al[])
+void addAluno(talunos aluno[])
 {
 	printf("Nome do aluno: ");
 	fflush(stdin);
-	gets(al[qtd].nome);
+	gets(aluno[qtd].nome);
 	
 	printf("Matricula do aluno: ");
 	fflush(stdin);
-	scanf("%d", &al[qtd].matricula);
+	scanf("%d", &aluno[qtd].matricula);
 
 	printf("Nota da primeira prova: ");
 	fflush(stdin);
-	scanf("%d", &al[qtd].prova1);
+	scanf("%d", &aluno[qtd].prova1);
 	
 	printf("Nota da segunda prova: ");
 	fflush(stdin);
-	scanf("%d", &al[qtd].prova2);
+	scanf("%d", &aluno[qtd].prova2);
 	
 	printf("Nota da primeira prova: ");
 	fflush(stdin);
-	scanf("%d", &al[qtd].prova3);
+	scanf("%d", &aluno[qtd].prova3);
 	
-	al[qtd].media = (al[qtd].prova1 + al[qtd].prova2 + al[qtd].prova3) / 3;
+	aluno[qtd].media = (aluno[qtd].prova1 + aluno[qtd].prova2 + aluno[qtd].prova3) / 3;
 	
 	qtd++;
 }
 //--------------------------------------------
 
-int filtraNome(talunos al[], char nomeConsulta[100])
+int filtraNome(talunos aluno[], char nomeConsulta[100])
 {
-	char nomeAux[100];
+	char nomeAuxiliar[100];
 	int res = -1;
 	
 	for(int i = 0; i < qtd; i++)
 	{
-		strcpy(nomeAux, al[i].nome); // copiando do vetor para aux
-		strupr(nomeAux); // uppercase
-		if(strcmp(nomeConsulta, nomeAux) == 0)
+		strcpy(nomeAuxiliar, aluno[i].nome); 
+		strupr(nomeAuxiliar); 
+	
+		if(strcmp(nomeConsulta, nomeAuxiliar) == 0)
 		{
-			printf("*** %s ***\n", al[i].nome);
-			printf("Matricula: %d\n", al[i].matricula);
-			printf("Nota de prova 1: %d\n", al[i].prova1);
-			printf("Nota de prova 2: %d\n", al[i].prova2);
-			printf("Nota de prova 3: %d\n", al[i].prova3);	
-			printf("Media geral: %d\n", al[i].media);								
+			printf("*** %s ***\n", aluno[i].nome);
+			printf("Matricula: %d\n", aluno[i].matricula);
+			printf("Nota de prova 1: %d\n", aluno[i].prova1);
+			printf("Nota de prova 2: %d\n", aluno[i].prova2);
+			printf("Nota de prova 3: %d\n", aluno[i].prova3);	
+			printf("Media geral: %d\n", aluno[i].media);								
 			printf("------------------------\n");
 			res = 0;
 		}
@@ -89,7 +93,8 @@ int filtraNome(talunos al[], char nomeConsulta[100])
 	
 	return res;	
 }
-//--------------------------------------------
+
+//______________________________________
 
 int filtraMatricula(talunos al[], int matriculaConsulta)
 {
@@ -112,7 +117,8 @@ int filtraMatricula(talunos al[], int matriculaConsulta)
 	
 	return res;	
 }
-//--------------------------------------------
+
+//______________________________________
 
 void resAprovacao(talunos al[])
 {
@@ -126,7 +132,8 @@ void resAprovacao(talunos al[])
 		}
 	}
 }
-//--------------------------------------------
+
+//______________________________________
 
 void maiorMedia(talunos al[])
 {
@@ -149,7 +156,8 @@ void maiorMedia(talunos al[])
 	printf("Media geral: %d\n", al[res].media);			
 	printf("------------------------\n");
 }
-//--------------------------------------------
+
+//______________________________________
 
 int menu()
 {
@@ -169,22 +177,25 @@ int menu()
 	printf("\n");
 	return opcao;
 }
-//--------------------------------------------
+
+//______________________________________
 
 int main()
 {
 	talunos alunos[100];
 	char nomeBusca[100];
-	int op, res, matBusca[11];;
+	int op, res, matriculaBusca[11];;
 	
 	do
 	{
 		op = menu();
 		switch(op)
 		{
+			
 			case 1:
 				addAluno(alunos);
 				break;
+				
 			case 2:
 				printf("Insira o nome do aluno: ");
 				fflush(stdin);
@@ -196,37 +207,47 @@ int main()
 					printf("\nAluno nao encontrado!");
 				}
 				break;
+				
 			case 3:
 				printf("Insira a matricula do aluno: ");
 				fflush(stdin);
-				scanf("%d", &matBusca);
-				res = filtraMatricula(alunos, matBusca);
+				scanf("%d", &matriculaBusca);
+				res = filtraMatricula(alunos, matriculaBusca);
 				if(res == -1)
 				{
 					printf("\nAluno nao encontrado!");
 				}
 				break;
+				
 			case 4:
 				maiorMedia(alunos);
 				break;
+				
 			case 5:
+				
 				resAprovacao(alunos);
 				break;
+				
 			case 6:
 				salvaArquivo(alunos);
 				break;
+				
 			case 7:
 				carregaArquivo(alunos);
 				break;
+				
 			case 0:
 				printf("Saindo...\n");
 				break;
+				
 			default:
 				printf("Opcao invalida!!!\n");
 				break;
+				
 		}
 		getch();
 		system("cls");
+		
 	}while(op != 0);
 	
 }
